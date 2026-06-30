@@ -1,0 +1,33 @@
+{
+  "name": "unicity-intent-marketplace",
+  "version": "1.0.0",
+  "description": "Autonomous Intent-to-Service Marketplace prototype on Unicity Testnet v2",
+  "main": "dist/index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "agent:requester": "ts-node src/agent-requester.ts",
+    "agent:solver": "ts-node src/agent-solver.ts",
+    "agent:run": "ts-node src/run.ts"
+  },
+  "dependencies": {
+    "@unicitylabs/sphere-sdk": "^0.8.0",
+    "canvas-confetti": "^1.6.0",
+    "lucide-react": "^0.395.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ws": "^8.17.1"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.6.4",
+    "@types/node": "^20.14.9",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/ws": "^8.5.10",
+    "@vitejs/plugin-react": "^4.3.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2",
+    "vite": "^5.3.1"
+  }
+}
