@@ -1,17 +1,37 @@
 import { GameMasterAgent } from './gm';
 import { PlayerAgent } from './player';
 
-async function main() {
-    console.log("Starting The Cryptographic Scavenger Hunt Integration Test...\n");
+export async function runSimulation(): Promise<string[]> {
+    const logs: string[] = [];
+    const originalConsoleLog = console.log;
+
+    // Capture logs to return them
+    console.log = (...args: any[]) => {
+        logs.push(args.join(' '));
+        originalConsoleLog(...args); // still print to stdout
+    };
+
+    logs.push("Starting The Cryptographic Scavenger Hunt Integration Test...\n");
 
     const gm = new GameMasterAgent();
     await gm.start();
 
-    // Small delay to ensure GM is fully listening
-    setTimeout(async () => {
-        const player = new PlayerAgent("Player1");
-        await player.start();
-    }, 1000);
+    return new Promise((resolve) => {
+        setTimeout(async () => {
+            const player = new PlayerAgent("Player1");
+            
+            player.onFinish = (success: boolean) => {
+                // Restore console.log
+                console.log = originalConsoleLog;
+                resolve(logs);
+            };
+
+            await player.start();
+        }, 1000);
+    });
 }
 
-main().catch(console.error);
+// If run directly from CLI
+if (require.main === module) {
+    runSimulation().then(() => process.exit(0)).catch(console.error);
+}

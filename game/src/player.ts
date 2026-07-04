@@ -5,6 +5,7 @@ import { CONFIG } from './config';
 export class PlayerAgent {
     private sdk: SphereSDK;
     private shardsCollected: string[] = [];
+    public onFinish?: (success: boolean) => void;
 
     constructor(nametag: string) {
         this.sdk = new SphereSDK(nametag);
@@ -87,10 +88,10 @@ export class PlayerAgent {
             console.log(`[Player] Key reconstructed successfully: ${reconstructedKey}`);
             console.log(`[Player] Executing settlement transaction. Sweeping funds to ${this.sdk.wallet.address}...`);
             console.log(`[Player] VICTORY!`);
-            process.exit(0);
+            if (this.onFinish) this.onFinish(true);
         } else {
             console.log(`[Player] Failed to reconstruct key.`);
-            process.exit(1);
+            if (this.onFinish) this.onFinish(false);
         }
     }
 }
